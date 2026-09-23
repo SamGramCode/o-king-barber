@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O-King Barber - Barbería Santiago</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; color: #333; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      padding: 1.5rem 2rem;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    nav .logo-text {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 900;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-left: 2rem;
+      transition: opacity 0.3s;
+    }
+
+    nav a:hover { opacity: 0.7; }
+
+    /* HERO VIDEO */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.6);
+    }
+
+    /* LOGO CIRCULAR */
+    .hero-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+
+    .hero-logo img {
+      width: 85%;
+      height: 85%;
+      object-fit: contain;
+    }
+
+    /* PEINE DIVISOR */
+    .comb-divider {
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, #f5f5f5);
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .comb-divider svg {
+      width: 100%;
+      height: 40px;
+      fill: #f5f5f5;
+    }
+
+    /* BARBEROS */
+    .barberos {
+      padding: 4rem 2rem;
+      background: #f5f5f5;
+    }
+
+    .barberos h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      font-family: 'Bebas Neue', sans-serif;
+      color: #1a1a1a;
+    }
+
+    .barberos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .barbero-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .barbero-card:hover { transform: translateY(-10px); }
+
+    .barbero-img {
+      width: 100%;
+      height: 300px;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .barbero-info {
+      padding: 1.5rem;
+    }
+
+    .barbero-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    .barbero-info p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .barbero-btn {
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    .barbero-btn:hover { background: #333; }
+
+    /* SERVICIOS */
+    .servicios {
+      padding: 4rem 2rem;
+      background: white;
+    }
+
+    .servicios h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      font-family: 'Bebas Neue', sans-serif;
+      color: #1a1a1a;
+    }
+
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .servicio-card {
+      background: #f5f5f5;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      border-left: 5px solid #1a1a1a;
+    }
+
+    .servicio-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    .servicio-card p {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .servicio-precio {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    /* UBICACIÓN */
+    .ubicacion {
+      padding: 4rem 2rem;
+      background: #f5f5f5;
+    }
+
+    .ubicacion-contenedor {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .ubicacion h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      grid-column: 1 / -1;
+    }
+
+    .ubicacion-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    .ubicacion-info p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .ubicacion-map {
+      width: 100%;
+      height: 400px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .ubicacion-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* BOTÓN AGENDAR */
+    .agendar-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .agendar-btn:hover {
+      background: #333;
+      transform: scale(1.1);
+    }
+
+    /* MODAL AGENDAMIENTO */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show { display: flex; }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .modal h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      box-shadow: 0 0 5px rgba(26,26,26,0.2);
+    }
+
+    .form-btn {
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      width: 100%;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .form-btn:hover { background: #333; }
+
+    /* REDES SOCIALES */
+    .redes-section {
+      padding: 2rem;
+      text-align: center;
+      background: white;
+      border-top: 1px solid #ddd;
+    }
+
+    .redes-section h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    .redes-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .redes-links a {
+      background: #1a1a1a;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .redes-links a:hover { background: #333; }
+
+    @media (max-width: 768px) {
+      .ubicacion-contenedor {
+        grid-template-columns: 1fr;
+      }
+
+      .barberos h2, .servicios h2 {
+        font-size: 1.8rem;
+      }
+
+      .agendar-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      nav a {
+        margin-left: 1rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav>
+    <div class="logo-text">O-KING BARBER</div>
+    <div>
+      <a href="#servicios">Servicios</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <video autoplay muted loop>
+      <source src="https://via.placeholder.com/1920x1080?text=O-King+Barber" type="video/mp4">
+    </video>
+    <div class="hero-logo">
+      <img src="./assets/logo.png" alt="O-King Logo">
+    </div>
+  </div>
+
+  <!-- PEINE DIVISOR -->
+  <div class="comb-divider">
+    <svg viewBox="0 0 1000 40" preserveAspectRatio="none">
+      <line x1="0" y1="20" x2="1000" y2="20" stroke="#1a1a1a" stroke-width="2"/>
+      <line x1="50" y1="20" x2="50" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="100" y1="20" x2="100" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="150" y1="20" x2="150" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="200" y1="20" x2="200" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="250" y1="20" x2="250" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="300" y1="20" x2="300" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="350" y1="20" x2="350" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="400" y1="20" x2="400" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="450" y1="20" x2="450" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="500" y1="20" x2="500" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="550" y1="20" x2="550" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="600" y1="20" x2="600" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="650" y1="20" x2="650" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="700" y1="20" x2="700" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="750" y1="20" x2="750" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="800" y1="20" x2="800" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="850" y1="20" x2="850" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="900" y1="20" x2="900" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+      <line x1="950" y1="20" x2="950" y2="40" stroke="#1a1a1a" stroke-width="3"/>
+    </svg>
+  </div>
+
+  <!-- BARBEROS -->
+  <section class="barberos">
+    <h2>Barberos Profesionales</h2>
+    <div class="barberos-grid" id="barberos-grid">
+      <!-- Generado por JavaScript -->
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="servicios" id="servicios">
+    <h2>Servicios que Hacemos</h2>
+    <div class="servicios-grid" id="servicios-grid">
+      <!-- Generado por JavaScript -->
+    </div>
+  </section>
+
+  <!-- UBICACIÓN -->
+  <section class="ubicacion" id="ubicacion">
+    <h2>Ubicación</h2>
+    <div class="ubicacion-contenedor">
+      <div class="ubicacion-info">
+        <h3>📍 O-King Barber</h3>
+        <p><strong>Dirección:</strong> Arturo Prat 653, 8320000 Santiago, Región Metropolitana, Chile</p>
+        <p><strong>Teléfono:</strong> <a href="tel:+56981859024">+56 9 8185 9024</a></p>
+        <p><strong>Horarios:</strong></p>
+        <p>Lunes - Sábado: 11:00 AM - 21:00 PM<br>Domingo: 11:00 AM - 17:30 PM</p>
+        <div class="redes-section" id="contacto">
+          <h3>Síguenos</h3>
+          <div class="redes-links">
+            <a href="https://www.instagram.com/o_kingbarber" target="_blank">Instagram</a>
+            <a href="https://www.tiktok.com/@o_kingbarber" target="_blank">TikTok</a>
+            <a href="https://wa.me/56981859024" target="_blank">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <div class="ubicacion-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.7594697450346!2d-70.64596!3d-33.44242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9665a217c1b1b1b1%3A0x1b1b1b1b1b1b1b1b!2sArturo%20Prat%20653%2C%20Santiago!5e0!3m2!1ses!2scl!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTÓN AGENDAR -->
+  <button class="agendar-btn" onclick="abrirModal()">📅 AGENDAR CITA</button>
+
+  <!-- MODAL AGENDAMIENTO -->
+  <div class="modal" id="modal-agendamiento">
+    <div class="modal-content">
+      <button class="modal-close" onclick="cerrarModal()">✕</button>
+      <h2>Agendar Cita</h2>
+
+      <div id="paso-1">
+        <div class="form-group">
+          <label>Selecciona un Barbero</label>
+          <select id="select-barbero" onchange="siguientePaso()">
+            <option value="">-- Elige barbero --</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="paso-2" style="display: none;">
+        <div class="form-group">
+          <label>Selecciona Fecha</label>
+          <input type="date" id="input-fecha" min="" onchange="siguientePaso()">
+        </div>
+      </div>
+
+      <div id="paso-3" style="display: none;">
+        <div class="form-group">
+          <label>Selecciona Hora</label>
+          <select id="select-hora" onchange="siguientePaso()">
+            <option value="">-- Elige hora --</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="paso-4" style="display: none;">
+        <div class="form-group">
+          <label>Nombre Completo</label>
+          <input type="text" id="input-nombre" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label>Número WhatsApp</label>
+          <input type="tel" id="input-whatsapp" placeholder="+56 9 XXXX XXXX">
+        </div>
+        <div class="form-group">
+          <label>Fecha de Nacimiento</label>
+          <input type="date" id="input-nacimiento">
+        </div>
+        <button class="form-btn" onclick="siguientePaso()">Continuar</button>
+      </div>
+
+      <div id="paso-5" style="display: none;">
+        <h3>¡Síguenos y Gana!</h3>
+        <p>Sigue nuestras redes sociales y reclama tu regalo exclusivo:</p>
+        <div class="redes-links">
+          <a href="https://www.instagram.com/o_kingbarber" target="_blank">Seguir Instagram</a>
+          <a href="https://www.tiktok.com/@o_kingbarber" target="_blank">Seguir TikTok</a>
+        </div>
+        <button class="form-btn" onclick="confirmarCita()" style="margin-top: 1.5rem;">Confirmar Cita</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_KEY = 'YOUR_SUPABASE_KEY';
+
+    // Datos temporales (se conectará a Supabase después)
+    const barberos = [
+      { id: 1, nombre: 'Carlos', foto: 'https://via.placeholder.com/250x300?text=Carlos', experiencia: '5 años' },
+      { id: 2, nombre: 'Juan', foto: 'https://via.placeholder.com/250x300?text=Juan', experiencia: '7 años' },
+      { id: 3, nombre: 'Miguel', foto: 'https://via.placeholder.com/250x300?text=Miguel', experiencia: '3 años' }
+    ];
+
+    const servicios = [
+      { nombre: 'Corte Clásico', precio: '$15.000', desc: 'Corte de cabello profesional' },
+      { nombre: 'Barba Completa', precio: '$10.000', desc: 'Afeitado y arreglo de barba' },
+      { nombre: 'Corte + Barba', precio: '$20.000', desc: 'Paquete completo' },
+      { nombre: 'Coloración', precio: '$25.000', desc: 'Tinte de cabello' },
+      { nombre: 'Tratamiento', precio: '$18.000', desc: 'Tratamiento capilar' },
+      { nombre: 'Suscripción Mensual', precio: '$60.000', desc: '4 cortes + 1 gratis' }
+    ];
+
+    function cargarBarberos() {
+      const grid = document.getElementById('barberos-grid');
+      grid.innerHTML = barberos.map(b => `
+        <div class="barbero-card">
+          <div class="barbero-img">
+            <img src="${b.foto}" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+          <div class="barbero-info">
+            <h3>${b.nombre}</h3>
+            <p>Experiencia: ${b.experiencia}</p>
+            <button class="barbero-btn" onclick="abrirModal(${b.id})">Agendar con ${b.nombre}</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function cargarServicios() {
+      const grid = document.getElementById('servicios-grid');
+      grid.innerHTML = servicios.map(s => `
+        <div class="servicio-card">
+          <h3>${s.nombre}</h3>
+          <p>${s.desc}</p>
+          <div class="servicio-precio">${s.precio}</div>
+        </div>
+      `).join('');
+    }
+
+    function abrirModal(barberoId = null) {
+      const modal = document.getElementById('modal-agendamiento');
+      modal.classList.add('show');
+      if (barberoId) {
+        document.getElementById('select-barbero').value = barberoId;
+        mostrarPaso(2);
+      } else {
+        mostrarPaso(1);
+      }
+      setMinDate();
+    }
+
+    function cerrarModal() {
+      const modal = document.getElementById('modal-agendamiento');
+      modal.classList.remove('show');
+      limpiarModal();
+    }
+
+    function setMinDate() {
+      const hoy = new Date();
+      const mañana = new Date(hoy.getTime() + 24 * 60 * 60 * 1000);
+      document.getElementById('input-fecha').min = mañana.toISOString().split('T')[0];
+    }
+
+    function mostrarPaso(numero) {
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById(`paso-${i}`).style.display = 'none';
+      }
+      document.getElementById(`paso-${numero}`).style.display = 'block';
+    }
+
+    function siguientePaso() {
+      const barbero = document.getElementById('select-barbero').value;
+      const fecha = document.getElementById('input-fecha').value;
+      const hora = document.getElementById('select-hora').value;
+      const nombre = document.getElementById('input-nombre').value;
+
+      if (barbero && !fecha) mostrarPaso(2);
+      else if (barbero && fecha && !hora) {
+        generarHoras();
+        mostrarPaso(3);
+      }
+      else if (barbero && fecha && hora && !nombre) mostrarPaso(4);
+      else if (nombre && document.getElementById('input-whatsapp').value) mostrarPaso(5);
+    }
+
+    function generarHoras() {
+      const select = document.getElementById('select-hora');
+      select.innerHTML = '<option value="">-- Elige hora --</option>';
+      for (let i = 11; i <= 20; i++) {
+        const hora = `${i}:00`;
+        select.innerHTML += `<option value="${hora}">${hora}</option>`;
+      }
+    }
+
+    function confirmarCita() {
+      const barbero = document.getElementById('select-barbero').value;
+      const fecha = document.getElementById('input-fecha').value;
+      const hora = document.getElementById('select-hora').value;
+      const nombre = document.getElementById('input-nombre').value;
+      const whatsapp = document.getElementById('input-whatsapp').value;
+      const nacimiento = document.getElementById('input-nacimiento').value;
+
+      if (!nombre || !whatsapp || !nacimiento) {
+        alert('Por favor completa todos los campos');
+        return;
+      }
+
+      // Aquí se enviaría a Supabase
+      console.log({ barbero, fecha, hora, nombre, whatsapp, nacimiento });
+      alert(`¡Cita agendada!\n\nBarbero: ${barbero}\nFecha: ${fecha}\nHora: ${hora}\n\nAcércate a la caja y reclama tu souvenir 🎁`);
+      cerrarModal();
+    }
+
+    function limpiarModal() {
+      document.getElementById('select-barbero').value = '';
+      document.getElementById('input-fecha').value = '';
+      document.getElementById('select-hora').value = '';
+      document.getElementById('input-nombre').value = '';
+      document.getElementById('input-whatsapp').value = '';
+      document.getElementById('input-nacimiento').value = '';
+      mostrarPaso(1);
+    }
+
+    // Inicializar
+    window.addEventListener('load', () => {
+      cargarBarberos();
+      cargarServicios();
+    });
+
+    // Cerrar modal al hacer clic fuera
+    document.getElementById('modal-agendamiento').addEventListener('click', (e) => {
+      if (e.target.id === 'modal-agendamiento') cerrarModal();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - O-King Barber</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #f5f5f5; }
+
+    .container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: #1a1a1a;
+      color: white;
+      padding: 2rem 1rem;
+      position: fixed;
+      width: 250px;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar h1 {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      text-align: center;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-menu button {
+      width: 100%;
+      background: none;
+      border: none;
+      color: white;
+      padding: 0.8rem;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s;
+      font-weight: 600;
+    }
+
+    .sidebar-menu button:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-menu button.active {
+      background: #fff;
+      color: #1a1a1a;
+    }
+
+    /* MAIN */
+    .main {
+      margin-left: 250px;
+      padding: 2rem;
+    }
+
+    .tab-content {
+      display: none;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    /* TABLAS */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    table th {
+      background: #1a1a1a;
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    table td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    table tr:hover {
+      background: #f9f9f9;
+    }
+
+    .btn {
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-right: 0.5rem;
+      transition: background 0.3s;
+    }
+
+    .btn:hover { background: #333; }
+    .btn-danger { background: #e74c3c; }
+    .btn-danger:hover { background: #c0392b; }
+    .btn-success { background: #27ae60; }
+    .btn-success:hover { background: #229954; }
+
+    /* FORMULARIOS */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* TARJETAS STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      border-left: 5px solid #1a1a1a;
+    }
+
+    .stat-card h3 {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #1a1a1a;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <h1>🔧 ADMIN</h1>
+      <ul class="sidebar-menu">
+        <li><button class="nav-btn active" data-tab="dashboard">📊 Dashboard</button></li>
+        <li><button class="nav-btn" data-tab="citas">📅 Citas</button></li>
+        <li><button class="nav-btn" data-tab="barberos">💈 Barberos</button></li>
+        <li><button class="nav-btn" data-tab="servicios">🔧 Servicios</button></li>
+        <li><button class="nav-btn" data-tab="productos">🛍️ Productos</button></li>
+        <li><button class="nav-btn" data-tab="promociones">🎁 Promociones</button></li>
+        <li><button class="nav-btn" data-tab="clientes">👥 Clientes</button></li>
+        <li><button class="nav-btn" data-tab="souvenirs">🏆 Souvenirs</button></li>
+      </ul>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <!-- DASHBOARD -->
+      <div class="tab-content active" id="dashboard">
+        <h2>Dashboard</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Citas Hoy</h3>
+            <div class="number">5</div>
+          </div>
+          <div class="stat-card">
+            <h3>Ingresos Hoy</h3>
+            <div class="number">$85K</div>
+          </div>
+          <div class="stat-card">
+            <h3>Clientes Totales</h3>
+            <div class="number">342</div>
+          </div>
+          <div class="stat-card">
+            <h3>Barberos Activos</h3>
+            <div class="number">3</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CITAS -->
+      <div class="tab-content" id="citas">
+        <h2>Gestión de Citas</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Barbero</th>
+              <th>Cliente</th>
+              <th>Servicio</th>
+              <th>Precio</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="citas-tbody">
+            <tr>
+              <td>2026-09-23</td>
+              <td>Carlos</td>
+              <td>Juan Pérez</td>
+              <td>Corte + Barba</td>
+              <td>$20.000</td>
+              <td>✅ Completada</td>
+              <td>
+                <button class="btn btn-success">Ver</button>
+                <button class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BARBEROS -->
+      <div class="tab-content" id="barberos">
+        <h2>Gestión de Barberos</h2>
+        <form>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" placeholder="Carlos">
+            </div>
+            <div class="form-group">
+              <label>Foto URL</label>
+              <input type="url" placeholder="https://...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Experiencia</label>
+            <input type="text" placeholder="5 años">
+          </div>
+          <button class="btn btn-success" type="button" onclick="agregarBarbero()">+ Agregar Barbero</button>
+        </form>
+        <hr style="margin: 2rem 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Experiencia</th>
+              <th>Citas Hoy</th>
+              <th>Ganancias Hoy</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Carlos</td>
+              <td>5 años</td>
+              <td>3</td>
+              <td>$45.000</td>
+              <td>
+                <button class="btn">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Juan</td>
+              <td>7 años</td>
+              <td>2</td>
+              <td>$30.000</td>
+              <td>
+                <button class="btn">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SERVICIOS -->
+      <div class="tab-content" id="servicios">
+        <h2>Gestión de Servicios</h2>
+        <form>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre Servicio</label>
+              <input type="text" placeholder="Corte Clásico">
+            </div>
+            <div class="form-group">
+              <label>Precio</label>
+              <input type="number" placeholder="15000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea placeholder="Corte de cabello profesional" rows="3"></textarea>
+          </div>
+          <button class="btn btn-success" type="button" onclick="agregarServicio()">+ Agregar Servicio</button>
+        </form>
+        <hr style="margin: 2rem 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Servicio</th>
+              <th>Precio</th>
+              <th>Veces Vendido</th>
+              <th>Ingreso Total</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Corte Clásico</td>
+              <td>$15.000</td>
+              <td>120</td>
+              <td>$1.800.000</td>
+              <td>
+                <button class="btn">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PRODUCTOS -->
+      <div class="tab-content" id="productos">
+        <h2>Gestión de Productos</h2>
+        <form>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre Producto</label>
+              <input type="text" placeholder="Pomada para Cabello">
+            </div>
+            <div class="form-group">
+              <label>Precio</label>
+              <input type="number" placeholder="8000">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Stock</label>
+              <input type="number" placeholder="10">
+            </div>
+            <div class="form-group">
+              <label>Foto URL</label>
+              <input type="url" placeholder="https://...">
+            </div>
+          </div>
+          <button class="btn btn-success" type="button" onclick="agregarProducto()">+ Agregar Producto</button>
+        </form>
+        <hr style="margin: 2rem 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Activo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pomada para Cabello</td>
+              <td>$8.000</td>
+              <td>5</td>
+              <td>✅</td>
+              <td>
+                <button class="btn">Editar</button>
+                <button class="btn" onclick="toggleProducto(this)">Desactivar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PROMOCIONES -->
+      <div class="tab-content" id="promociones">
+        <h2>Gestión de Promociones</h2>
+        <form>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Tipo Promoción</label>
+              <select>
+                <option>Cumpleaños (Descuento)</option>
+                <option>N Cortes (Gratis)</option>
+                <option>Suscripción Mensual</option>
+                <option>Descuento General</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Descuento %</label>
+              <input type="number" placeholder="20">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea placeholder="20% de descuento en tu cumpleaños" rows="3"></textarea>
+          </div>
+          <button class="btn btn-success" type="button" onclick="agregarPromocion()">+ Agregar Promoción</button>
+        </form>
+        <hr style="margin: 2rem 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Descuento</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Cumpleaños</td>
+              <td>20%</td>
+              <td>2026-09-01</td>
+              <td>2026-12-31</td>
+              <td>
+                <button class="btn">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CLIENTES -->
+      <div class="tab-content" id="clientes">
+        <h2>Gestión de Clientes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>WhatsApp</th>
+              <th>Cumpleaños</th>
+              <th>Cortes Realizados</th>
+              <th>Gasto Total</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Juan Pérez</td>
+              <td>+56 9 8765 4321</td>
+              <td>1990-03-15</td>
+              <td>8</td>
+              <td>$140.000</td>
+              <td>
+                <button class="btn">Ver</button>
+                <button class="btn">Enviar Promo</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SOUVENIRS -->
+      <div class="tab-content" id="souvenirs">
+        <h2>Gestión de Souvenirs</h2>
+        <form>
+          <div class="form-group">
+            <label>Nombre Souvenir</label>
+            <input type="text" placeholder="Toalla O-King">
+          </div>
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea placeholder="Toalla branded O-King Barber" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Foto URL</label>
+            <input type="url" placeholder="https://...">
+          </div>
+          <button class="btn btn-success" type="button" onclick="agregarSouvenir()">+ Agregar Souvenir</button>
+        </form>
+        <hr style="margin: 2rem 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Souvenir</th>
+              <th>Reclamados</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Toalla O-King</td>
+              <td>15</td>
+              <td>45</td>
+              <td>
+                <button class="btn">Editar</button>
+                <button class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Navegar entre tabs
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabName = this.dataset.tab;
+
+        // Remover active de todos
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+        // Activar tab actual
+        this.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+      });
+    });
+
+    function agregarBarbero() { alert('Barbero agregado'); }
+    function agregarServicio() { alert('Servicio agregado'); }
+    function agregarProducto() { alert('Producto agregado'); }
+    function agregarPromocion() { alert('Promoción agregada'); }
+    function agregarSouvenir() { alert('Souvenir agregado'); }
+
+    function toggleProducto(btn) {
+      btn.textContent = btn.textContent === 'Desactivar' ? 'Activar' : 'Desactivar';
+      btn.classList.toggle('btn-danger');
+    }
+  </script>
+</body>
+</html>
